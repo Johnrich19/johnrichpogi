@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#080711">
+  <title>Jujutsu Dev | Personal Portfolio</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div id="header"></div>
+  <main>
+    <div id="home"></div>
+    <div id="about"></div>
+    <div id="education"></div>
+    <div id="projects"></div>
+    <div id="tech"></div>
+    <div id="contact"></div>
+  </main>
+  <div id="footer"></div>
+  <script src="js/main.js"></script>
+  <script>
+    // Load separate HTML components. For local file use, some browsers block fetch().
+    // If the page does not load sections by double-clicking index.html, use VS Code Live Server.
+    const components = [
+      ["header", "header.html"],
+      ["home", "home.html"],
+      ["about", "about.html"],
+      ["education", "education.html"],
+      ["projects", "projects.html"],
+      ["tech", "tech.html"],
+      ["contact", "contact.html"],
+      ["footer", "footer.html"]
+    ];
+    Promise.all(components.map(async ([id, file]) => {
+      const response = await fetch(file);
+      if (!response.ok) throw new Error("Could not load " + file);
+      document.getElementById(id).innerHTML = await response.text();
+    })).then(() => {
+      const year = document.getElementById("year");
+      if (year) year.textContent = new Date().getFullYear();
+    }).catch(error => {
+      document.body.innerHTML = '<main style="font-family:Arial;color:#fff;background:#080711;min-height:100vh;padding:40px"><h1>Start this portfolio with Live Server</h1><p style="color:#ccc">Your browser may block loading separate HTML files from a local file. In Visual Studio Code, install the Live Server extension, then right-click index.html and choose “Open with Live Server”.</p><p style="color:#ccc">Details: ' + error.message + '</p></main>';
+    });
+  </script>
+</body>
+</html>
